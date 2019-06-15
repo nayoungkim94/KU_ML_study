@@ -44,7 +44,7 @@ def vector_neural_net(features):
 
 
 # 2 units
-def mat_neural_net(features):
+def neural_net(features):
     layer1 = tf.sigmoid(tf.matmul(features, W1) + b1)
     hypothesis = tf.sigmoid(tf.matmul(layer, W2) + b2)
     return hypothesis
@@ -69,8 +69,13 @@ def grad(features, labels):
 EPOCHS = 50000
 
 for step in range(EPOCHS):
-    
-
-
-
+    for features, labels in tfe.Iterator(dataset):
+        features, labels = preprocess_data(features, labels)
+        grads = grad(neural_net(features), labels)
+        optimizer.apply_gradients(grads_and_vars=zip(grads, [W1, W2, W3, b1, b2, b3]))
+        if step % 5000 == 0:
+            print("Iter: {} Loss: {:.4f}".format(step, loss_fn(neural_net(features),labels)))
+x_data, y_data = preprocess_data(x_data, y_data)
+test_acc = accuracy_fn(neural_net(x_data), y_data)
+print("Testset accuracy: {:.4f}".format(test_acc))
 
