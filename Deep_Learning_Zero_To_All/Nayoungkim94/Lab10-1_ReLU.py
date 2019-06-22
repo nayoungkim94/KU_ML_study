@@ -41,4 +41,6 @@ def relu():
 # Model
 
 class create_model(tf.keras.Model):
+    def __init__(self, label_dims): # label_dims: dimension of final output(label)
+        super(crete_model, self).__init__()
 
